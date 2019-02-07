@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "659372943942",
+    "firebase_url": "https://recipe-finder-fd57b.firebaseio.com",
+    "project_id": "recipe-finder-fd57b",
+    "storage_bucket": "recipe-finder-fd57b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659372943942:android:6f5a7d33e4d8df1d",
+        "android_client_info": {
+          "package_name": "com.tverezovskyi.todaysdinner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659372943942-sokfnd7joh58rqr3s024me447t44atp9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tverezovskyi.todaysdinner",
+            "certificate_hash": "e688ef22f81314d776acff2265211afe66b37796"
+          }
+        },
+        {
+          "client_id": "659372943942-tk818a1ljk78gaoie1jjbluj5idgpi01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADxbBEbaJmu2A8RS9A-Xu2dtsYacsheNg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659372943942-tk818a1ljk78gaoie1jjbluj5idgpi01.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
