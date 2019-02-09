@@ -1,5 +1,11 @@
 package model;
 
+
+import android.icu.text.MessageFormat;
+
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.PropertyName;
+
 import java.util.List;
 
 /**
@@ -7,12 +13,15 @@ import java.util.List;
  */
 public class Recipe {
 
+    private String id;
     private String title;
+    @PropertyName("subtitle")
     private String subTitle;
     private String description;
     private String time;
     private String serves;
     private String calories;
+
     private String fullImage;
     private String ingredientsImage;
     private String nutritionInformation;
@@ -35,6 +44,14 @@ public class Recipe {
 
     public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -85,10 +102,13 @@ public class Recipe {
         this.calories = calories;
     }
 
+    @PropertyName("full_img")
     public String getFullImage() {
-        return fullImage;
+        String ext = fullImage.substring(fullImage.lastIndexOf('.') + 1);
+        return MessageFormat.format("https://res.cloudinary.com/dqphtuh6k/image/upload/v1548905470/{0}/{1}.{2}", id, fullImage, ext);
     }
 
+    @PropertyName("full_img")
     public void setFullImage(String fullImage) {
         this.fullImage = fullImage;
     }
@@ -101,10 +121,12 @@ public class Recipe {
         this.ingredientsImage = ingredientsImage;
     }
 
+    @PropertyName("nutrition")
     public String getNutritionInformation() {
         return nutritionInformation;
     }
 
+    @PropertyName("nutrition")
     public void setNutritionInformation(String nutritionInformation) {
         this.nutritionInformation = nutritionInformation;
     }

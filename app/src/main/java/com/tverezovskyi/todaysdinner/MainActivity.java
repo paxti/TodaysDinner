@@ -2,11 +2,13 @@ package com.tverezovskyi.todaysdinner;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
@@ -14,6 +16,7 @@ import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mContext = this;
 
+        Picasso.get().setIndicatorsEnabled(true);
+        Picasso.get().setLoggingEnabled(true);
+
         mChecksRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 .collection("recipes")
                 .limit(10);
 
-        PagedList.Config config = new PagedList.Config.Builder()
+        final PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
                 .setPrefetchDistance(1)
                 .setPageSize(5)
@@ -83,9 +89,17 @@ public class MainActivity extends AppCompatActivity {
                     protected void onBindViewHolder(@NonNull ItemViewHolder holder,
                                                     int position,
                                                     @NonNull Recipe model) {
+                        model.setId(this.getItem(position).getId());
                         holder.title.setText(model.getTitle());
+                        Log.d(TAG, "asd  " + model.getFullImage());
+                        Picasso
+                                .get()
+                                .load(model.getFullImage())
+                                .placeholder(R.drawable.common_google_signin_btn_icon_dark)
+                                .error(R.drawable.ic_error_outline_black_24dp)
+                                .into(holder.image);
                     }
-                };
+            };
 
         mChecksRecycler.setAdapter(adapter);
     }
@@ -114,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.image) ImageView image;
         @BindView(R.id.title) TextView title;
 
         public ItemViewHolder(View itemView) {
