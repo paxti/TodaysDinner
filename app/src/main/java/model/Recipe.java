@@ -6,12 +6,13 @@ import android.icu.text.MessageFormat;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.PropertyName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by psyfu on 2/2/2019.
  */
-public class Recipe {
+public class Recipe implements Serializable {
 
     private String id;
     private String title;

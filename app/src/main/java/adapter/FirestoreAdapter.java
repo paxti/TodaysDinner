@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.squareup.picasso.Picasso;
-import com.tverezovskyi.todaysdinner.MainActivity;
 import com.tverezovskyi.todaysdinner.R;
 import com.tverezovskyi.todaysdinner.RecipeDetailsActivity;
 
@@ -54,24 +53,25 @@ public class FirestoreAdapter extends FirestorePagingAdapter<Recipe, FirestoreAd
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull Recipe recipe) {
+    protected void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull final Recipe recipe) {
         recipe.setId(this.getItem(position).getId());
         holder.title.setText(recipe.getTitle());
         holder.subTitle.setText(recipe.getSubTitle());
-        Picasso.get()
-                .load(recipe.getThumbnail())
-                .placeholder(R.drawable.common_google_signin_btn_icon_dark)
-                .error(R.drawable.ic_error_outline_black_24dp)
-                .into(holder.image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), RecipeDetailsActivity.class);
-                intent.putExtra("DATA", "asdasd");
+                intent.putExtra("recipe", recipe);
                 view.getContext().startActivity(intent);
             }
         });
+
+        Picasso.get()
+                .load(recipe.getThumbnail())
+                .placeholder(R.drawable.common_google_signin_btn_icon_dark)
+                .error(R.drawable.ic_error_outline_black_24dp)
+                .into(holder.image);
     }
 
     @NonNull
@@ -82,7 +82,7 @@ public class FirestoreAdapter extends FirestorePagingAdapter<Recipe, FirestoreAd
         return new ItemViewHolder(view);
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.image) ImageView image;
         @BindView(R.id.title) TextView title;
