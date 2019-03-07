@@ -1,5 +1,6 @@
 package adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.firebase.ui.firestore.paging.LoadingState;
 import com.squareup.picasso.Picasso;
 import com.tverezovskyi.todaysdinner.MainActivity;
 import com.tverezovskyi.todaysdinner.R;
+import com.tverezovskyi.todaysdinner.RecipeDetailsActivity;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +63,15 @@ public class FirestoreAdapter extends FirestorePagingAdapter<Recipe, FirestoreAd
                 .placeholder(R.drawable.common_google_signin_btn_icon_dark)
                 .error(R.drawable.ic_error_outline_black_24dp)
                 .into(holder.image);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), RecipeDetailsActivity.class);
+                intent.putExtra("DATA", "asdasd");
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @NonNull
