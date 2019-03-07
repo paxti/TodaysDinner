@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -58,17 +59,17 @@ public class MainActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 mChecksRecycler.getContext(),
                 mLayoutManager.getOrientation());
-        mChecksRecycler.addItemDecoration(dividerItemDecoration);
+
+        // mChecksRecycler.addItemDecoration(dividerItemDecoration);
 
         Query baseQuery = FirebaseFirestore
                 .getInstance()
-                .collection("recipes")
-                .limit(10);
+                .collection("recipes");
 
         final PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPrefetchDistance(1)
-                .setPageSize(5)
+                .setPrefetchDistance(10)
+                .setPageSize(20)
                 .build();
 
         FirestorePagingOptions<Recipe> options = new FirestorePagingOptions.Builder<Recipe>()
@@ -77,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         adapter = new FirestorePagingAdapter<Recipe, ItemViewHolder>(options) {
+
+                @Override
+                protected void onLoadingStateChanged(@NonNull LoadingState state) {
+                    switch (state) {
+                        case LOADING_INITIAL:
+                            Log.d(TAG, "Initial load");
+                        case LOADING_MORE:
+                            Log.d(TAG, "Loading more");
+                        case LOADED:
+                            Log.d(TAG, "Loaded");
+                        case ERROR:
+                            // The previous load (either initial or additional) failed. Call
+                            // the retry() method in order to retry the load operation.
+                            // ...
+                    }
+                }
+
                     @NonNull
                     @Override
                     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -91,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
                                                     @NonNull Recipe model) {
                         model.setId(this.getItem(position).getId());
                         holder.title.setText(model.getTitle());
+                        holder.subTitle.setText(model.getSubTitle());
                         Log.d(TAG, "asd  " + model.getFullImage());
-                        Picasso
-                                .get()
-                                .load(model.getFullImage())
+                        Picasso.get()
+                                .load(model.getThumbnail())
                                 .placeholder(R.drawable.common_google_signin_btn_icon_dark)
                                 .error(R.drawable.ic_error_outline_black_24dp)
                                 .into(holder.image);
@@ -130,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         @BindView(R.id.image) ImageView image;
         @BindView(R.id.title) TextView title;
+        @BindView(R.id.subtitle) TextView subTitle;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
