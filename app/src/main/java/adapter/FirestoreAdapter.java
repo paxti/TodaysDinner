@@ -1,13 +1,14 @@
 package adapter;
 
-import android.widget.TextView;
+import android.util.Log;
 
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
+
+
 
 /**
  * Created by psyfu on 2/7/2019.
  */
-public class RecipeAdapter {
+public class FirestoreAdapter {
+
 
 }

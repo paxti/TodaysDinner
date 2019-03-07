@@ -21,7 +21,7 @@ public class Recipe {
     private String time;
     private String serves;
     private String calories;
-
+    private String thumbnail;
     private String fullImage;
     private String ingredientsImage;
     private String nutritionInformation;
@@ -30,18 +30,30 @@ public class Recipe {
 
     public Recipe() {};
 
+    public String getThumbnail() {
+        return MessageFormat.format("https://storage.googleapis.com/images--fd57b/{0}/{1}", id, thumbnail);
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    @PropertyName("ingredients")
     public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
+    @PropertyName("ingredients")
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
+    @PropertyName("instructions")
     public List<Instruction> getInstructions() {
         return instructions;
     }
 
+    @PropertyName("instructions")
     public void setInstructions(List<Instruction> instructions) {
         this.instructions = instructions;
     }
@@ -104,19 +116,20 @@ public class Recipe {
 
     @PropertyName("full_img")
     public String getFullImage() {
-        String ext = fullImage.substring(fullImage.lastIndexOf('.') + 1);
-        return MessageFormat.format("https://res.cloudinary.com/dqphtuh6k/image/upload/v1548905470/{0}/{1}.{2}", id, fullImage, ext);
-    }
+        return MessageFormat.format("https://storage.googleapis.com/images--fd57b/{0}/{1}", id, fullImage);
+}
 
     @PropertyName("full_img")
     public void setFullImage(String fullImage) {
         this.fullImage = fullImage;
     }
 
+    @PropertyName("ingredients_img")
     public String getIngredientsImage() {
         return ingredientsImage;
     }
 
+    @PropertyName("ingredients_img")
     public void setIngredientsImage(String ingredientsImage) {
         this.ingredientsImage = ingredientsImage;
     }
