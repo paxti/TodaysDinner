@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
+import adapter.FirestoreAdapter;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private LinearLayoutManager mLayoutManager;
-    private FirestorePagingAdapter<Recipe, ItemViewHolder> adapter;
+    private FirestorePagingAdapter<Recipe, FirestoreAdapter.ItemViewHolder> adapter;
     private Context mContext;
 
 
@@ -77,48 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 .setQuery(baseQuery, config, Recipe.class)
                 .build();
 
-        adapter = new FirestorePagingAdapter<Recipe, ItemViewHolder>(options) {
-
-                @Override
-                protected void onLoadingStateChanged(@NonNull LoadingState state) {
-                    switch (state) {
-                        case LOADING_INITIAL:
-                            Log.d(TAG, "Initial load");
-                        case LOADING_MORE:
-                            Log.d(TAG, "Loading more");
-                        case LOADED:
-                            Log.d(TAG, "Loaded");
-                        case ERROR:
-                            // The previous load (either initial or additional) failed. Call
-                            // the retry() method in order to retry the load operation.
-                            // ...
-                    }
-                }
-
-                    @NonNull
-                    @Override
-                    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        View view = LayoutInflater.from(parent.getContext())
-                                .inflate(R.layout.item, parent, false);
-                        return new ItemViewHolder(view);
-                    }
-
-                    @Override
-                    protected void onBindViewHolder(@NonNull ItemViewHolder holder,
-                                                    int position,
-                                                    @NonNull Recipe model) {
-                        model.setId(this.getItem(position).getId());
-                        holder.title.setText(model.getTitle());
-                        holder.subTitle.setText(model.getSubTitle());
-                        Log.d(TAG, "asd  " + model.getFullImage());
-                        Picasso.get()
-                                .load(model.getThumbnail())
-                                .placeholder(R.drawable.common_google_signin_btn_icon_dark)
-                                .error(R.drawable.ic_error_outline_black_24dp)
-                                .into(holder.image);
-                    }
-            };
-
+        adapter = new FirestoreAdapter(options);
         mChecksRecycler.setAdapter(adapter);
     }
 
@@ -142,17 +102,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.image) ImageView image;
-        @BindView(R.id.title) TextView title;
-        @BindView(R.id.subtitle) TextView subTitle;
-
-        public ItemViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
     }
 }
