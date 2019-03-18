@@ -1,0 +1,2 @@
+# TodaysDinner
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/699ca5a910434c4ca10de57687f9f82f)](https://app.codacy.com/app/psyfungus/TodaysDinner?utm_source=github.com&utm_medium=referral&utm_content=paxti/TodaysDinner&utm_campaign=Badge_Grade_Settings)
